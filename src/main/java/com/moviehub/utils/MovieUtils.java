@@ -2,6 +2,7 @@ package com.moviehub.utils;
 
 import com.moviehub.domain.Movie;
 import com.moviehub.domain.User;
+import com.moviehub.service.FavoriteMoviesService;
 import com.moviehub.service.MovieService;
 import com.moviehub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class MovieUtils {
     private UserService userService;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private FavoriteMoviesService favoriteMoviesService;
 
     public void runConsoleApplication() {
         Scanner scanner = new Scanner(System.in);
@@ -28,6 +31,7 @@ public class MovieUtils {
             System.out.println("1. Register User");
             System.out.println("2. Search Movies");
             System.out.println("3. Get Movie Details");
+            System.out.println("4. Add Movie to Favorites");
             System.out.println("4. Exit");
 
             int choice = scanner.nextInt();
@@ -62,6 +66,15 @@ public class MovieUtils {
                     }
                     break;
                 case 4:
+                    System.out.print("Enter your email: ");
+                    String userEmail = scanner.nextLine();
+                    System.out.print("Enter movie title: ");
+                    String movieTitleToAdd = scanner.nextLine();
+                    favoriteMoviesService.addMovieToFavorites(userEmail, movieTitleToAdd);
+                    System.out.println("Movie added to favorites.");
+                    break;
+
+                case 5:
                     exit = true;
                     break;
                 default:

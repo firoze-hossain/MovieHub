@@ -7,6 +7,10 @@ public class Movie {
     private String releaseDate;
     private double budget;
 
+    public Movie(String title) {
+        this.title = title;
+    }
+
     public Movie(String title, String cast, String category, String releaseDate, double budget) {
         this.title = title;
         this.cast = cast;
