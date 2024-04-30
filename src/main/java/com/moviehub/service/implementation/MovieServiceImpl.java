@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
-    private List<Movie> movies ;
+    private List<Movie> movies;
 
     public MovieServiceImpl(List<Movie> movies) {
-        this.movies=movies;
+        this.movies = movies;
     }
 
     @Override
@@ -27,6 +27,13 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Movie getMovieDetails(String movieTitle) {
+        return movies.stream()
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(movieTitle))
+                .findFirst()
+                .orElse(null);
+    }
 
 
     @PostConstruct

@@ -8,5 +8,5 @@ public interface MovieService {
 
     List<Movie> searchMovies(String query);
 
-
+    Movie getMovieDetails(String movieTitle);
 }

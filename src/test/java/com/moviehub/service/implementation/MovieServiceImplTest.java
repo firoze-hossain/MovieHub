@@ -45,6 +45,14 @@ public class MovieServiceImplTest {
 
     }
 
+    @Test
+    public void testGetMovieDetails() {
+        movieService = new MovieServiceImpl(movies);
+        Movie result = movieService.getMovieDetails("The Shawshank Redemption");
+        assertNotNull(result);
+        assertEquals("The Shawshank Redemption", result.getTitle());
+    }
+
     @AfterAll
     public static void shutDown() {
         SpringApplication.exit(SpringApplication.run(MovieHubApplication.class));

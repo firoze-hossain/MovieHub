@@ -27,7 +27,8 @@ public class MovieUtils {
             System.out.println("Select an option:");
             System.out.println("1. Register User");
             System.out.println("2. Search Movies");
-            System.out.println("3. Exit");
+            System.out.println("3. Get Movie Details");
+            System.out.println("4. Exit");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -47,6 +48,20 @@ public class MovieUtils {
                     movies.forEach(movie -> System.out.println(movie.getTitle()));
                     break;
                 case 3:
+                    System.out.print("Enter movie title: ");
+                    String title = scanner.nextLine();
+                    Movie movie = movieService.getMovieDetails(title);
+                    if (movie != null) {
+                        System.out.println("Title: " + movie.getTitle());
+                        System.out.println("Cast: " + movie.getCast());
+                        System.out.println("Category: " + movie.getCategory());
+                        System.out.println("Release Date: " + movie.getReleaseDate());
+                        System.out.println("Budget: " + movie.getBudget());
+                    } else {
+                        System.out.println("Movie not found.");
+                    }
+                    break;
+                case 4:
                     exit = true;
                     break;
                 default:
