@@ -1,46 +1,33 @@
 package com.moviehub;
 
-import com.moviehub.domain.User;
-import com.moviehub.service.UserService;
+import com.moviehub.utils.MovieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Scanner;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class MovieHubApplication implements CommandLineRunner {
+public class MovieHubApplication {
     @Autowired
-    private UserService userService;
+    private MovieUtils movieUtils;
 
     public static void main(String[] args) {
         SpringApplication.run(MovieHubApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Welcome to MovieHub");
-        System.out.println("1. Register User");
-
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (choice) {
-            case 1:
-                System.out.print("Enter your email: ");
-                String email = scanner.nextLine();
-                User user = userService.registerUser(email);
-                System.out.println("User registered successfully with email: " + user.getEmail());
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
+    @Bean
+    public CommandLineRunner runConsoleApplication() {
+        String skipConsoleApplication = System.getProperty("skipConsoleApplication");
+        if (skipConsoleApplication == null || !Boolean.parseBoolean(skipConsoleApplication)) {
+            return args -> {
+                movieUtils.runConsoleApplication();
+            };
+        } else {
+            return args -> {
+            };
         }
-
-        scanner.close();
     }
+
 
 }
