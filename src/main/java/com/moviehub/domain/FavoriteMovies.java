@@ -19,6 +19,10 @@ public class FavoriteMovies {
         }
     }
 
+    public void removeMovie(Movie movie) {
+        movies.remove(movie);
+    }
+
     public List<Movie> getMovies() {
         return movies;
     }

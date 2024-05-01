@@ -51,13 +51,25 @@ public class FavoriteMoviesServiceImpl implements FavoriteMoviesService {
         return movies;
     }
 
-
-
-
-
-
-
-
+    @Override
+    public void removeMovieFromFavorites(String userEmail, String movieTitleToRemove) {
+        FavoriteMovies favoriteMovies = userFavorites.get(userEmail);
+        if (favoriteMovies != null) {
+            List<Movie> movies = favoriteMovies.getMovies();
+            Movie movieToRemove = null;
+            for (Movie movie : movies) {
+                if (movie.getTitle().equals(movieTitleToRemove)) {
+                    movieToRemove = movie;
+                    break;
+                }
+            }
+            if (movieToRemove != null) {
+                favoriteMovies.removeMovie(movieToRemove);
+            } else {
+                throw new NoMoviesFoundException("Movie with title '" + movieTitleToRemove + "' not found in favorites for user with email " + userEmail);
+            }
+        }
+    }
 
 
 }

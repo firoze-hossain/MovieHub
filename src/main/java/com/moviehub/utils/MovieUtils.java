@@ -35,7 +35,8 @@ public class MovieUtils {
                 System.out.println("3. Get Movie Details");
                 System.out.println("4. Add Movie to Favorites");
                 System.out.println("5. Get Favorite Movies With User Details");
-                System.out.println("6. Exit");
+                System.out.println("6. Remove Movie from Favorites");
+                System.out.println("7. Exit");
 
                 int choice;
                 try {
@@ -96,6 +97,18 @@ public class MovieUtils {
 
                         break;
                     case 6:
+                        System.out.print("Enter your email: ");
+                        String userEmailToRemove = scanner.nextLine();
+                        System.out.print("Enter movie title: ");
+                        String movieTitleToRemove = scanner.nextLine();
+                        try {
+                            favoriteMoviesService.removeMovieFromFavorites(userEmailToRemove, movieTitleToRemove);
+                            System.out.println("Movie removed from favorites.");
+                        } catch (NoMoviesFoundException e) {
+                            System.out.println("An error occurred: " + e.getMessage());
+                        }
+                        break;
+                    case 7:
                         exit = true;
                         break;
                     default:
