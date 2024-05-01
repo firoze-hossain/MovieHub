@@ -2,6 +2,7 @@ package com.moviehub.service.implementation;
 
 import com.moviehub.MovieHubApplication;
 import com.moviehub.domain.Movie;
+import com.moviehub.exceptions.NoMoviesFoundException;
 import com.moviehub.service.UserService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -73,6 +74,25 @@ public class FavoriteMoviesServiceImplTest {
         assertEquals(1, movies.size());
         assertFalse(movies.stream().anyMatch(movie -> movie.getTitle().equals("The Godfather")));
         assertTrue(movies.stream().anyMatch(movie -> movie.getTitle().equals("The Dark Knight")));
+    }
+
+    @Test
+    public void testSearchFavoriteMovies() {
+        userService.registerUser("firoze@gmail.com");
+
+        assertThrows(NoMoviesFoundException.class, () -> favoriteMoviesService.searchFavoriteMovies("firoze@gmail.com", "Dark"));
+
+        favoriteMoviesService.addMovieToFavorites("firoze@gmail.com", "The Godfather");
+        favoriteMoviesService.addMovieToFavorites("firoze@gmail.com", "The Dark Knight");
+
+        List<Movie> foundMovies = favoriteMoviesService.searchFavoriteMovies("firoze@gmail.com", "Dark");
+        assertNotNull(foundMovies);
+        assertEquals(1, foundMovies.size());
+        assertTrue(foundMovies.stream().anyMatch(movie -> movie.getTitle().equals("The Dark Knight")));
+
+        List<Movie> notFoundMovies = favoriteMoviesService.searchFavoriteMovies("firoze@gmail.com", "Spiderman");
+        assertNotNull(notFoundMovies);
+        assertTrue(notFoundMovies.isEmpty());
     }
 
 

@@ -11,4 +11,6 @@ public interface FavoriteMoviesService {
 
     void removeMovieFromFavorites(String userEmail, String movieTitleToRemove);
 
+    List<Movie> searchFavoriteMovies(String userEmail, String query);
+
 }

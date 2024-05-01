@@ -10,9 +10,8 @@ import com.moviehub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteMoviesServiceImpl implements FavoriteMoviesService {
@@ -69,6 +68,18 @@ public class FavoriteMoviesServiceImpl implements FavoriteMoviesService {
                 throw new NoMoviesFoundException("Movie with title '" + movieTitleToRemove + "' not found in favorites for user with email " + userEmail);
             }
         }
+    }
+
+    @Override
+    public List<Movie> searchFavoriteMovies(String userEmail, String query) {
+        FavoriteMovies favoriteMovies = userFavorites.get(userEmail);
+        if (favoriteMovies != null && !favoriteMovies.getMovies().isEmpty()) {
+            return favoriteMovies.getMovies().stream()
+                    .filter(movie -> movie.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .sorted(Comparator.comparing(Movie::getTitle))
+                    .collect(Collectors.toList());
+        }
+        throw new NoMoviesFoundException("No movies found in favorites for user with email " + userEmail);
     }
 
 
