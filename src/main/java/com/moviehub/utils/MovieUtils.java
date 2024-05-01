@@ -2,6 +2,7 @@ package com.moviehub.utils;
 
 import com.moviehub.domain.Movie;
 import com.moviehub.domain.User;
+import com.moviehub.exceptions.NoMoviesFoundException;
 import com.moviehub.exceptions.UserNotFoundException;
 import com.moviehub.service.FavoriteMoviesService;
 import com.moviehub.service.MovieService;
@@ -33,7 +34,8 @@ public class MovieUtils {
                 System.out.println("2. Search Movies");
                 System.out.println("3. Get Movie Details");
                 System.out.println("4. Add Movie to Favorites");
-                System.out.println("5. Exit");
+                System.out.println("5. Get Favorite Movies With User Details");
+                System.out.println("6. Exit");
 
                 int choice;
                 try {
@@ -83,8 +85,17 @@ public class MovieUtils {
                             System.out.println("An error occurred: " + e.getMessage());
                         }
                         break;
-
                     case 5:
+                        System.out.print("Enter your email: ");
+                        String userEmailForFavorites = scanner.nextLine();
+                        try {
+                            List<Movie> favoriteMovies = favoriteMoviesService.getFavoriteMoviesWithUser(userEmailForFavorites);
+                        } catch (NoMoviesFoundException e) {
+                            System.out.println("An error occurred: " + e.getMessage());
+                        }
+
+                        break;
+                    case 6:
                         exit = true;
                         break;
                     default:

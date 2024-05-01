@@ -3,6 +3,7 @@ package com.moviehub.service.implementation;
 import com.moviehub.domain.FavoriteMovies;
 import com.moviehub.domain.Movie;
 import com.moviehub.domain.User;
+import com.moviehub.exceptions.NoMoviesFoundException;
 import com.moviehub.exceptions.UserNotFoundException;
 import com.moviehub.service.FavoriteMoviesService;
 import com.moviehub.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,6 +34,30 @@ public class FavoriteMoviesServiceImpl implements FavoriteMoviesService {
         favoriteMovies.addMovie(new Movie(movieTitle));
         userFavorites.put(user.getEmail(), favoriteMovies);
     }
+
+    @Override
+    public List<Movie> getFavoriteMoviesWithUser(String userEmail) {
+        FavoriteMovies favoriteMovies = userFavorites.get(userEmail);
+        if (favoriteMovies == null || favoriteMovies.getMovies().isEmpty()) {
+            throw new NoMoviesFoundException("No movies found in favorites for user with email " + userEmail);
+        }
+        User user = favoriteMovies.getUser();
+        List<Movie> movies = favoriteMovies.getMovies();
+        System.out.println("User Details:");
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Favorite Movies:");
+        movies.forEach(movie -> System.out.println("- " + movie.getTitle()));
+
+        return movies;
+    }
+
+
+
+
+
+
+
+
 
 
 }
