@@ -11,7 +11,7 @@ MovieHub is a simple movie management application that allows users to manage th
 **Search Favorites:** Users can search for movies only within their favorites list.</br>
 ## Technologies Used </br>
 Java-21</br>
-Spring Boot-3.25</br>
+Spring Boot-3.2.5</br>
 Maven</br>
 
 ## Getting Started
